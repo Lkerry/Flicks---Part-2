@@ -20,13 +20,13 @@ class SuperheroViewController: UIViewController, UICollectionViewDelegate, UICol
         // Do any additional setup after loading the view.
         collectionView.dataSource = self
         
-        //let layout = collectionView.collectionViewLayout as! UICollectionViewFlowLayout
-        //layout.minimumInteritemSpacing = 5
-        //layout.minimumLineSpacing = layout.minimumInteritemSpacing
-        //let cellsPerLine: CGFloat = 2
-        //let interItemSpacingTotal = layout.minimumInteritemSpacing * (cellsPerLine - 1)
-        //let width = collectionView.frame.size.width / cellsPerLine - interItemSpacingTotal / cellsPerLine
-        //layout.itemSize = CGSize(width: width, height: width * 3 / 2)
+        let layout = collectionView.collectionViewLayout as! UICollectionViewFlowLayout
+        layout.minimumInteritemSpacing = 5
+        layout.minimumLineSpacing = layout.minimumInteritemSpacing
+        let cellsPerLine: CGFloat = 2
+        let interItemSpacingTotal = layout.minimumInteritemSpacing * (cellsPerLine - 1)
+        let width = collectionView.frame.size.width / cellsPerLine - interItemSpacingTotal / cellsPerLine
+        layout.itemSize = CGSize(width: width, height: width * 3 / 2)
         fetchMovies()
         
     }
@@ -76,8 +76,8 @@ class SuperheroViewController: UIViewController, UICollectionViewDelegate, UICol
         let cell = sender as! UICollectionViewCell
         let indexPath = collectionView.indexPath(for: cell)
         let movie = movies[(indexPath?.row)!]
-        let detailsViewController = segue.destination as! DetailsViewController
-        detailsViewController.movie = movie
+        let detailViewController = segue.destination as! DetailsViewController
+        detailViewController.movie = movie
     }
 
     override func didReceiveMemoryWarning() {
