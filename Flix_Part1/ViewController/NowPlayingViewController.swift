@@ -16,8 +16,6 @@ class NowPlayingViewController: UIViewController, UITableViewDataSource, UIColle
     }
 
     @IBOutlet weak var tableView: UITableView!
-    
-    // Outlet and variables
     @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
     
     var movies: [[String: Any]] = []
@@ -49,6 +47,8 @@ class NowPlayingViewController: UIViewController, UITableViewDataSource, UIColle
     @objc func didPullToRefresh(_ refreshControl: UIRefreshControl){
         fetchMovies()
     }
+    
+    
     
     func fetchMovies(){
         activityIndicator.startAnimating()
