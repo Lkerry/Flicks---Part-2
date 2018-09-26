@@ -10,6 +10,8 @@ import UIKit
 
 class SuperheroViewController: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource {
     
+    @IBOutlet weak var collectionView: UICollectionView!
+    
     var movies: [[String: Any]] = []
 
     override func viewDidLoad() {
@@ -18,13 +20,13 @@ class SuperheroViewController: UIViewController, UICollectionViewDelegate, UICol
         // Do any additional setup after loading the view.
         collectionView.dataSource = self
         
-        let layout = collectionView.collectionViewLayout as! UICollectionViewFlowLayout
-        layout.minimumInteritemSpacing = 5
-        layout.minimumLineSpacing = layout.minimumInteritemSpacing
-        let cellsPerLine: CGFloat = 2
-        let interItemSpacingTotal = layout.minimumInteritemSpacing * (cellsPerLine - 1)
-        let width = collectionView.frame.size.width / cellsPerLine - interItemSpacingTotal / cellsPerLine
-        layout.itemSize = CGSize(width: width, height: width * 3 / 2)
+        //let layout = collectionView.collectionViewLayout as! UICollectionViewFlowLayout
+        //layout.minimumInteritemSpacing = 5
+        //layout.minimumLineSpacing = layout.minimumInteritemSpacing
+        //let cellsPerLine: CGFloat = 2
+        //let interItemSpacingTotal = layout.minimumInteritemSpacing * (cellsPerLine - 1)
+        //let width = collectionView.frame.size.width / cellsPerLine - interItemSpacingTotal / cellsPerLine
+        //layout.itemSize = CGSize(width: width, height: width * 3 / 2)
         fetchMovies()
         
     }
@@ -35,7 +37,7 @@ class SuperheroViewController: UIViewController, UICollectionViewDelegate, UICol
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "PosterCell", for: indexPath) as! PosterCell
         let movie = movies[indexPath.item]
-        if let posterPathString = movie["poster_path"] as? String{
+        if let posterPathString = movie["poster_path"] as? String {
             let posterBaseUrl = "https://image.tmdb.org/t/p/w500"
             let posterURL = URL(string: posterBaseUrl + posterPathString)!
             cell.posterImageView.af_setImage(withURL: posterURL)
@@ -44,9 +46,6 @@ class SuperheroViewController: UIViewController, UICollectionViewDelegate, UICol
     }
     
     func fetchMovies(){
-        //activityIndicator.startAnimating()
-        
-        //let url = URL(string: "https://api.themoviedb.org/3/movie/now_playing?api_key=a07e22bc18f5cb106bfe4cc1f83ad8ed")!
         let url = URL(string: "https://api.themoviedb.org/3/movie/363088/similar?api_key=a07e22bc18f5cb106bfe4cc1f83ad8ed")!
         
         let request = URLRequest(url: url, cachePolicy: .reloadIgnoringLocalCacheData, timeoutInterval: 10)
@@ -64,9 +63,10 @@ class SuperheroViewController: UIViewController, UICollectionViewDelegate, UICol
                 //print(dataDictionary)
                 self.movies = dataDictionary["results"] as! [[String: Any]]
                 self.collectionView.reloadData()
+                //self.refreshControl.endRefreshing()
                 
             }
-            //self.refreshControl.endRefreshing()
+            
         }
         task.resume()
         //activityIndicator.stopAnimating()
@@ -76,8 +76,8 @@ class SuperheroViewController: UIViewController, UICollectionViewDelegate, UICol
         let cell = sender as! UICollectionViewCell
         let indexPath = collectionView.indexPath(for: cell)
         let movie = movies[(indexPath?.row)!]
-        let detailViewController = segue.destination as! DetailViewController
-        detailViewController.movie = movie
+        let detailsViewController = segue.destination as! DetailsViewController
+        detailsViewController.movie = movie
     }
 
     override func didReceiveMemoryWarning() {
